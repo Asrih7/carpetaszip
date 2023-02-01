@@ -1,0 +1,18 @@
+.social-cards ion-col {
+    padding: 0;
+}    
+  
+.informacion{
+    white-space: normal !important; 
+    text-align: justify;
+}
+
+.danger{ color: red;}
+.info{ color: gray; margin-right: 0px !important; padding-right: 0px !important}
+.completo { --background: red !important;}
+.apuntado { --background: green !important;}
+
+.visible { visibility: visible !important}
+.hidden { display: none !important}
+
+ion-card-title { font-size: medium;}

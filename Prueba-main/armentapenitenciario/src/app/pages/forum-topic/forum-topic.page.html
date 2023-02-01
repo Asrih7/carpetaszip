@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">    
+    <ion-buttons slot="start">
+      <ion-back-button text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{tema.Titulo}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="cards-bg social-cards">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+      <ion-row>
+        <ion-col size="10">
+          <ion-icon name="time-outline"></ion-icon> {{tema.Fecha}}
+        </ion-col>
+        <ion-col size="2" class="ion-text-right">          
+          <ion-icon *ngIf="tema.Respuestas > 0" name="chatbubbles"></ion-icon>
+          <ion-icon *ngIf="tema.Respuestas == 0" name="chatbubbles-outline"></ion-icon>
+          {{tema.Respuestas}}
+        </ion-col>
+      </ion-row>
+      </ion-card-subtitle>
+      <ion-card-title>
+        <ion-chip>
+          <ion-avatar>
+            <img src="../assets/imgs/icon.png">
+          </ion-avatar>
+          <!-- <ion-icon name="settings-outline"></ion-icon> -->
+          <ion-label>{{tema.Usuario | uppercase}}</ion-label>
+        </ion-chip>
+        <h2><b>{{tema.Titulo}}</b></h2>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- <h3><b>{{tema.Titulo}}</b></h3>
+      <br> -->
+      <section class="comentario" [innerHTML]="tema.Comentario | safeHtml"></section>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let item of items; let i = index">
+      <!-- <ion-item>
+        <ion-avatar item-start>
+          <img src="../assets/imgs/icon.png">
+        </ion-avatar>
+        <h2>{{items[i].Usuario}}</h2>
+        <p><ion-icon small name="md-time"></ion-icon> {{items[i].Fecha}}</p>
+      </ion-item> -->
+    
+      <!-- <img src="img/advance-card-bttf.png"> -->
+          
+      <ion-card-header>
+        <ion-card-subtitle>        
+          <ion-icon name="time-outline"></ion-icon> {{items[i].Fecha}}
+        </ion-card-subtitle>
+        <ion-card-title>
+          <!-- {{items[i].Usuario}} -->
+          <ion-chip>
+            <ion-avatar>
+              <img src="../assets/imgs/icon.png">
+            </ion-avatar>
+            <!-- <ion-icon name="settings-outline"></ion-icon> -->
+            <ion-label>{{items[i].Usuario | uppercase}}</ion-label>
+          </ion-chip>
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- <p style="white-space: normal !important">{{items[i].Comentario}}</p> -->
+        <section class="comentario" [innerHTML]="items[i].Comentario | safeHtml"></section>
+      </ion-card-content>      
+
+  </ion-card>  
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button *ngIf="tema.Estado == false" (click)="nuevoComentario()"><ion-icon name="create-outline"></ion-icon></ion-fab-button>
+    <ion-fab-button *ngIf="tema.Estado == true" (click)="temaCerrado()" color="danger"><ion-icon name="lock-closed"></ion-icon></ion-fab-button>
+  </ion-fab>
+
+</ion-content>

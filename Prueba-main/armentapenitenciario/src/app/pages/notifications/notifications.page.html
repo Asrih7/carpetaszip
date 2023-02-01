@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-title>Notificaciones</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Volver"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-searchbar id="input" (ionInput)="getItems($event)" placeholder="Buscar por asunto"></ion-searchbar>  
+  <ion-card *ngFor="let item of items; let i = index" button="true" (click)="leerNotificacion(items[i])">
+    <ion-card-header>
+      <!-- <ion-icon class="ion-text-right" name="time-outline" [ngClass]="items[i].Reciente == true ? 'reciente' : 'normal' "></ion-icon> -->
+      <ion-card-subtitle [ngClass]="items[i].Reciente == true ? 'reciente' : 'normal' ">
+        <ion-icon name="time-outline" [ngClass]="items[i].Reciente == true ? 'reciente' : 'normal' "></ion-icon> 
+        {{items[i].FechaEnvio}}
+      </ion-card-subtitle>
+      <!-- <ion-card-title>{{items[i].Autor}}</ion-card-title> -->
+    </ion-card-header>
+    <!-- <ion-item>
+      <ion-avatar item-start>
+        <img src="../assets/imgs/icon.png">
+        <ion-icon name="md-notifications"></ion-icon>
+      </ion-avatar>      
+      <h3>{{items[i].Autor}}</h3>
+      <p><ion-icon small name="time-outline" [ngClass]="items[i].Reciente == true ? 'reciente' : 'normal' "></ion-icon> {{items[i].FechaEnvio}}</p>
+    </ion-item> -->
+  
+    <!-- <img src="img/advance-card-bttf.png"> -->
+  
+    <ion-card-content class="ion-text-wrap">
+      <h3><b>{{items[i].Asunto}}</b></h3>
+      <!-- <p>{{items[i].Comentario}}</p> -->
+      <!-- <div class="notificacion" [innerHTML]="items[i].Autor | safeHtml"></div> -->
+    </ion-card-content>
+  
+    <ion-row>
+      <ion-col>
+        <ion-button size="small" fill="clear" icon-start (click)="leerNotificacion(items[i])">
+          <ion-icon *ngIf="items[i].Reciente == true" name="notifications"></ion-icon>
+          <ion-icon *ngIf="items[i].Reciente == false" name="notifications-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-text-right">
+        <ion-note>
+          <ion-button size="small" icon-start (click)="leerNotificacion(items[i])">
+              <ion-icon name='eye'></ion-icon>
+              Leer
+          </ion-button> 
+        </ion-note>
+      </ion-col>
+    </ion-row>    
+
+  </ion-card>  
+  <section class="ion-padding ion-text-center" *ngIf="items != null && items.length < 1">
+    <img width="200" src="../assets/imgs/empty.png">
+  </section>
+  
+</ion-content>

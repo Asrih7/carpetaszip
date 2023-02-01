@@ -1,0 +1,44 @@
+header {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  // background: #7014e8;
+  // background-image: url(https://dotnet.microsoft.com/static/images/redesign/home-hero-bg.png),linear-gradient(180deg,#7014e8 30.12%,#0e5ecf 192.47%);
+}
+
+.logo{
+  max-width: 300px; 
+  max-height: 100px;
+  background-color: transparent;
+}
+
+.image-center{
+  margin:0 auto;
+}
+
+.icon-avatar { 
+  font-size: 4em; 
+  color: var(--ion-color-secondary);
+  //margin-bottom: -10px;    
+}
+
+.ion-list-cursos {
+  max-height: 55%;
+  overflow-y: auto;
+}
+
+//   ion-content {
+//     --background: url('../../../assets/imgs/pattern-grey.png') 0 0/100% 100% no-repeat;
+// }
+
+.my-custom-menu {
+  --width: 500px;
+}
+
+.curso-activo{
+  color: var(--ion-color-primary);
+  font-weight: bold;
+}
+
+.odd{
+  --ion-item-background: var(--ion-color-light)
+}

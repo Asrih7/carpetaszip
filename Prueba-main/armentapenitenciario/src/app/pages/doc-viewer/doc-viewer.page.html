@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-title>{{item.Nombre}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Volver"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="width:100%; height:100%;">
+    <iframe style="width:100%; height:100%" [src]="url | safeUrl">
+    </iframe>
+  </div>
+</ion-content>

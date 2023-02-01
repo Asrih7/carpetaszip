@@ -1,0 +1,81 @@
+header {
+    margin-top: 5em;
+    margin-bottom: 3em;
+  }
+
+section {
+    margin-top: 2em;
+    margin-bottom: 3em;
+  }
+
+.logo{
+    max-width: 350px !important; 
+    max-height: 150px !important;
+    background-color: transparent;
+}
+
+.image-center{
+    margin:0 auto;
+}
+
+.help-button{
+    text-align: end !important;
+    display: block !important;
+    margin-top: 1em;
+}
+
+.ayuda{
+    color: white !important;
+}
+
+.toolbar-background {
+    background-color: transparent;
+    content: none;
+    }
+
+.button-ayuda {
+    background-color: transparent;
+}
+
+.button-social {
+    border-radius:0%;
+}
+
+.button-ios.activated{
+    background-color: transparent;
+}
+
+ion-content {
+    --background: url('../../../assets/imgs/background.png') 0 0/100% 100% no-repeat;
+}
+
+ion-list {
+    --ion-background-color: transparent !important;
+}
+
+ion-input{
+    color:white;    
+    // --placeholder-color: white;
+    // --placeholder-opacity: 5;
+}
+
+ion-fab {
+    position: fixed;
+    z-index: 999;
+    margin-top: -28px;
+    top: 85%;
+    left: 50%;
+    margin-left: -28px;
+} 
+
+ion-fab-list {
+    margin: 60px 0;
+}
+
+ion-fab-list[side=right] {
+    margin: 0 60px;
+}
+
+ion-fab-list[side=left] {
+    margin: 0 60px;
+}

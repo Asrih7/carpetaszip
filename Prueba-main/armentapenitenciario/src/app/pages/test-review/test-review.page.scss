@@ -1,0 +1,137 @@
+// @import '~swiper/scss';
+// @import '~@ionic/angular/css/ionic-swiper';
+
+// .swipper-container {
+//     width: 100%;
+//     height: 100%;
+// }
+
+// .swiper-slide {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: center;
+// }
+
+.test-avatar{
+    margin:0 auto;
+    width: 70px;
+    height: 70px;
+}
+
+.aprobado{
+    color: #00b06c;
+    font-size: 4.0rem;
+}
+
+.suspenso{
+    color: #EC5252;
+    font-size: 4.0rem;
+}
+
+.nota {color:light; font-weight: bold; font-size: small; margin-bottom: -25px;}
+.etiqueta-aprobado {background-color: #00b06c; color:white; font-weight: bold; font-size: large;margin-right: 5px;}
+.etiqueta-suspenso {background-color: #EC5252; color:white; font-weight: bold; font-size: large;margin-right: 5px;}
+
+.aciertos{
+    color: #00b06c;
+}
+
+.fallos{
+    color: #EC5252;
+}
+
+.blancos{
+    color: gray;
+}
+
+.dudosas{
+    color: #FFA12D;
+}
+
+.aciertos-background{
+    background-color: #00b06c;
+    margin-right: 5px;
+}
+
+.fallos-background{
+    background-color: #EC5252;
+    margin-right: 5px;
+}
+
+.blancos-background{
+    background-color: gray;
+    margin-right: 5px;
+}
+
+.dudosas-background{
+    background-color: #FFA12D;
+    margin-right: 5px;
+}
+
+.acierto { --background: #00b06c !important }
+.fallo { --background: #EC5252 !important }
+
+.dudosa-acierto {--background: orange !important; color: #00b06c !important}
+.dudosa-fallo {--background: orange !important; color: #EC5252 !important}
+
+.dudosa{ border-color:orange !important }
+.dudosa_contestada{ --background:orange !important; }
+
+ion-slides { height: initial; } 
+    
+.ion-card-content { background-color:transparent; text-align: justify;}
+.ion-card-content-ok { background-color:#c9ffe5; }
+.ion-card-content-ko { background-color:#fcd4d4; }
+.ion-card-content-correct {
+    background-color:#c9ffe5;
+    border: 2px;
+    border-color: #00b06c;
+    border-style: dashed;
+}
+.ion-card-content-incorrect {
+    background-color:#fcd4d4;
+    border: 2px;
+    border-color: #EC5252;
+    border-style: dashed;
+}
+.ion-card-content-explicacion {
+    background-color:#fff0cc !important;
+    border: 2px !important;
+    border-color: #f69d35 !important;
+    border-style: solid !important;
+}
+//.ion-card-content-ok { color: #00b06c; background-color:#c9ffe5; }
+//.ion-card-content-ko { color: #fe4157; background-color:#fcd4d4; }
+
+.ion-button-visible { visibility: visible;}
+.ion-button-hide { visibility: hidden;}    
+
+.explicacion-hide { visibility: hidden;}    
+
+.explicacion{
+    visibility: visible;
+    white-space: normal !important; 
+    text-align: justify;
+    background-color:#fff0cc;
+}
+
+.explicacion-title{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color:#f69d35;
+}
+
+.visible { visibility: visible !important}
+.hidden { visibility: hidden !important}
+
+.icon-person { 
+    font-size: 3em; 
+    margin-bottom: -10px;
+    // color: #13b5ea;
+}
+.icon-people { 
+    font-size: 3em; 
+    margin-bottom: -10px;
+    color: lightgray;
+}

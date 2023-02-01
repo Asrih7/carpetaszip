@@ -1,0 +1,21 @@
+.tema {font-size: x-small;margin-right: 5px;}
+.etiqueta {color:light;font-weight: bold; font-size: x-small;margin-right: 5px;}
+
+.video-viewed { color: var(--ion-color-primary); font-size: larger !important; vertical-align: -webkit-baseline-middle;}
+.video-unviewed { color: lightgrey; font-size: larger !important; vertical-align: -webkit-baseline-middle;}
+
+.tema-visible { visibility: visible !important}
+.tema-hidden { visibility: hidden !important}
+
+.fancybox__content{
+    padding: 0px; // remove white border
+}
+
+cdk-virtual-scroll-viewport {
+    height: 100%;
+    width: 100%;
+}
+
+.odd{
+    --ion-item-background: var(--ion-color-light)
+}

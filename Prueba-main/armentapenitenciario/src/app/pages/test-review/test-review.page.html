@@ -1,0 +1,390 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <!-- <ion-buttons slot="start">
+      <ion-button (click)="terminar()">
+        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>     -->
+    <ion-buttons slot="start" *ngIf="revisar == true">
+      <ion-back-button text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <!-- <ion-button>
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button> -->
+      <ion-button (click)="terminar()" *ngIf="revisar == false">
+        <ion-icon slot="icon-only" name="exit-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> Revisión </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-menu side="start" menuId="indicePreguntasPreview" contentId="indicePreview">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-button (click)="closeMenu()">
+          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Preguntas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let pregunta of listaPreguntas; let i = index">
+          <ion-menu-toggle auto-hide="true">
+            <ion-button size="small" color="light" *ngIf="listaPreguntas[i].IdPregunta < 10 && listaPreguntas[i].Contestada == 0" (click)="goTo(i)">
+              {{'0' + (i+1)}}
+            </ion-button> 
+            <ion-button size="small" *ngIf="listaPreguntas[i].IdPregunta < 10 && listaPreguntas[i].Contestada > 0" [ngClass]="listaPreguntas[i].Acertada == 1 ? (listaPreguntas[i].Dudosa == 0 ? 'acierto' : 'dudosa-acierto') : listaPreguntas[i].Fallada == 1 ? (listaPreguntas[i].Dudosa == 0 ? 'fallo' : 'dudosa-fallo') : '' " (click)="goTo(i)">
+              {{'0' + (i+1)}}
+            </ion-button> 
+            <ion-button size="small" color="light" *ngIf="listaPreguntas[i].IdPregunta > 9 && listaPreguntas[i].Contestada == 0" (click)="goTo(i)">
+              {{i+1}}
+            </ion-button> 
+            <ion-button size="small" *ngIf="listaPreguntas[i].IdPregunta > 9 && listaPreguntas[i].Contestada > 0" [ngClass]="listaPreguntas[i].Acertada == 1 ? (listaPreguntas[i].Dudosa == 0 ? 'acierto' : 'dudosa-acierto') : listaPreguntas[i].Fallada == 1 ? (listaPreguntas[i].Dudosa == 0 ? 'fallo' : 'dudosa-fallo') : '' " (click)="goTo(i)">
+              {{i+1}}
+            </ion-button> 
+          </ion-menu-toggle>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="indicePreview"></ion-router-outlet>
+
+<ion-content class="ion-padding">
+
+  <ion-segment [(ngModel)]="resultado">
+    <ion-segment-button value="resultado">        
+      <ion-icon name="ribbon-outline"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="revision">
+      <ion-icon name="eye-outline"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="comparativa" *ngIf="tipoTest != 4">
+      <ion-icon name="people-outline"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="ranking" *ngIf="tipoTest != 4">
+      <ion-icon name="trophy-outline"></ion-icon>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="resultado">
+    <br>
+    <section *ngSwitchCase="'resultado'" class="ion-text-center">
+      <!-- <p>{{test.Nombre | uppercase}}</p>
+      <p>{{test.Tipo | uppercase}}</p> -->
+      <ion-avatar class="test-avatar">        
+        <img src="../assets/imgs/icon.png">
+      </ion-avatar>
+      <h3>{{test.Nombre | uppercase}}</h3>
+      <section>
+        <ion-badge class="nota" color="light">
+        <ion-label *ngIf="dudosas == null">Nota</ion-label>
+        <ion-label *ngIf="dudosas > 0">Nota Real</ion-label>
+        </ion-badge>
+        <h1 *ngIf="tipoTest != 4" [ngClass]="nota >= 5 ? 'aprobado' : 'suspenso'" >{{nota}}</h1>
+        <ion-badge *ngIf="tipoTest != 4" [ngClass]="nota >= 5 ? 'etiqueta-aprobado' : 'etiqueta-suspenso'">
+          <ion-label *ngIf="nota >= 5">APROBADO</ion-label>
+          <ion-label *ngIf="nota < 5">SUSPENSO</ion-label>
+        </ion-badge>
+        <ion-badge *ngIf="tipoTest == 4" [ngClass]="nota > 0 ? 'etiqueta-aprobado' : 'etiqueta-suspenso'">
+          <ion-label *ngIf="nota > 0">APTO</ion-label>
+          <ion-label *ngIf="nota == 0">NO APTO</ion-label>
+        </ion-badge>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <label class="aciertos">Aciertos</label>
+              <br>
+              <ion-badge class="aciertos-background" item-end>{{aciertos}}</ion-badge>                      
+            </ion-col>
+            <ion-col>
+                <label class="fallos">Fallos</label>
+                <br>
+                <ion-badge class="fallos-background" item-end>{{fallos}}</ion-badge>              
+            </ion-col>
+            <ion-col>
+              <label class="blancos">Blancos</label>
+              <br>
+              <ion-badge class="blancos-background" item-end>{{blancos}}</ion-badge>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-card *ngIf="tipoTest != 4">
+          <ion-card-header color="primary" class="ion-text-center">          
+            <ion-card-title>
+              <ion-icon name="information-circle-outline"></ion-icon>
+            </ion-card-title>
+            <ion-card-subtitle>        
+              Criterios de corrección
+            </ion-card-subtitle>
+          </ion-card-header>     
+          <ion-card-content class="ion-text-wrap">
+            <br>
+            <h3>
+              El <b>valor del fallo es {{valorFallo}}</b> por cada pregunta fallada
+            </h3>
+          </ion-card-content> 
+        </ion-card> 
+        <ion-card *ngIf="tipoTest == 4 && idOposicion == 63">
+          <ion-card-header color="primary" class="ion-text-center">          
+            <ion-card-title>
+              <ion-icon name="information-circle-outline"></ion-icon>
+            </ion-card-title>
+            <ion-card-subtitle>        
+              Criterios de corrección
+            </ion-card-subtitle>
+          </ion-card-header>     
+          <ion-card-content class="ion-text-wrap">
+            <br>
+            <h3>
+              El <b>valor del fallo es 0</b>, las preguntas falladas no restan.
+              <br>
+              <br>
+              Es necesario <b>tener bien un 70% del total</b> de preguntas.
+            </h3>
+          </ion-card-content> 
+        </ion-card> 
+        <ion-card *ngIf="tipoTest == 4 && idOposicion == 189">
+          <ion-card-header color="primary" class="ion-text-center">          
+            <ion-card-title>
+              <ion-icon name="information-circle-outline"></ion-icon>
+            </ion-card-title>
+            <ion-card-subtitle>        
+              Criterios de corrección
+            </ion-card-subtitle>
+          </ion-card-header>    
+          <ion-card-content class="ion-text-wrap">
+            <br>
+            <h3>
+              El <b>valor del fallo es 0</b>, las preguntas falladas no restan.
+              <br>
+              <br>
+              Es necesario <b>tener bien un 85% del total</b> de preguntas.
+            </h3>
+          </ion-card-content>    
+        </ion-card> 
+      </section>      
+      <section *ngIf="dudosas > 0">
+        <ion-item></ion-item>
+        <br>
+        <ion-badge class="nota" color="light">
+          Nota con Riesgo
+        </ion-badge>
+        <h1 [ngClass]="notaRiesgo >= 5 ? 'aprobado' : 'suspenso'" >{{notaRiesgo}}</h1>
+        <ion-badge [ngClass]="notaRiesgo >= 5 ? 'etiqueta-aprobado' : 'etiqueta-suspenso'">
+          <ion-label *ngIf="notaRiesgo >= 5">APROBADO</ion-label>
+          <ion-label *ngIf="notaRiesgo < 5">SUSPENSO</ion-label>
+        </ion-badge>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <label class="dudosas">Dudosas</label>
+              <br>
+              <ion-badge class="dudosas-background" item-end>{{dudosas}}</ion-badge>                      
+            </ion-col>
+            <ion-col>
+                <label class="aciertos">Aciertos</label>
+                <br>
+                <ion-badge class="aciertos-background" item-end>{{aciertos}} + {{dudosasAcierto}}</ion-badge>              
+            </ion-col>
+            <ion-col>
+              <label class="fallos">Fallos</label>
+              <br>
+              <ion-badge class="fallos-background" item-end>{{fallos}} + {{dudosasFallo}}</ion-badge>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </section>
+      <ion-card *ngIf="dudosas > 0">
+        <ion-card-header color="primary" class="ion-text-center">          
+          <ion-card-title>
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </ion-card-title>
+          <ion-card-subtitle>        
+            Nota con Riesgo
+          </ion-card-subtitle>
+        </ion-card-header>    
+        <ion-card-content class="ion-text-wrap">
+          <br>
+          <h3>
+            La nota con riesgo sólo es un cálculo que te dará una visión estratégica para el día del examen. ¡A veces arriesgar merece la pena!
+            <br>
+            <br>
+            <b>IMPORTANTE: la nota que se tendrá en cuenta para el cálculo de tu media será la NOTA REAL</b>
+          </h3>
+        </ion-card-content>    
+      </ion-card> 
+    </section>
+
+    <section *ngSwitchCase="'revision'">
+
+      <!-- <swiper #swiper [config]="config"
+      (slideChange)="swiperSlideChanged($event)"> -->
+      <swiper #swiper [virtual]="true">
+        <ng-template swiperSlide *ngFor="let preguntas of listaPreguntas; let i = index">
+          <ion-card>
+            <ion-card-header class="ion-text-center">   
+              <ion-button fill="clear" (click)="prev()" [ngClass]="listaPreguntas[i].IdPregunta == 1 ? 'hidden' : 'visible' ">
+                <ion-icon slot="icon-only" name="caret-back"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" (click)="openMenu()">
+                <ion-icon name="apps"></ion-icon>
+              </ion-button>
+              <!-- <ion-button fill="clear" (click)="verIndice($event)">
+                <ion-icon name="apps"></ion-icon>
+              </ion-button>   -->
+              <ion-button fill="clear" (click)="next()" [ngClass]="listaPreguntas[i].IdPregunta == numeroPreguntas ? 'hidden' : 'visible' ">
+                <ion-icon slot="icon-only" name="caret-forward"></ion-icon>                    
+              </ion-button>
+              <ion-card-title color="primary">
+                  <!-- Pregunta {{listaPreguntas[i].IdPregunta}} / {{numeroPreguntas}} -->
+                  {{i + 1}} / {{numeroPreguntas}}
+              </ion-card-title>
+            </ion-card-header>
+  
+            <ion-card-content class="ion-text-wrap">
+              <h2><b>{{listaPreguntas[i].Texto}}</b></h2>
+          </ion-card-content>
+  
+          <ion-card *ngFor="let respuesta of listaPreguntas[i].Respuestas; let j = index">
+            <ion-card-content class="ion-text-wrap" [ngClass]="listaPreguntas[i].Respuestas[j].RespuestaCorrecta == 1 ? 'ion-card-content-correct' : listaPreguntas[i].Respuestas[j].Seleccionada == 1 ? 'ion-card-content-ko' : 'ion-card-content'">
+              <ion-card-subtitle class="ion-text-left">
+                <ion-checkbox *ngIf="listaPreguntas[i].Respuestas[j].RespuestaCorrecta == 1 && listaPreguntas[i].Respuestas[j].Seleccionada == 1" color="success" disabled="true" [checked]="listaPreguntas[i].Respuestas[j].Seleccionada == 1 ? true : false"></ion-checkbox>
+                <ion-checkbox *ngIf="listaPreguntas[i].Respuestas[j].RespuestaCorrecta == 0 && listaPreguntas[i].Respuestas[j].Seleccionada == 1" color="danger" disabled="true" [checked]="listaPreguntas[i].Respuestas[j].Seleccionada == 1 ? true : false"></ion-checkbox>
+                <ion-label [ngClass]="listaPreguntas[i].Respuestas[j].RespuestaCorrecta == 1 ? 'ion-card-content-ok' : listaPreguntas[i].Respuestas[j].Seleccionada == 1 ? 'ion-card-content-ko' : 'ion-card-content'">{{listaPreguntas[i].Respuestas[j].Texto}}</ion-label>                                  
+              </ion-card-subtitle>
+            </ion-card-content>
+          </ion-card>
+          <ion-card [ngClass]="(listaPreguntas[i].Explicacion == '' || listaPreguntas[i].Explicacion == ' ') ? 'explicacion-hide' : 'explicacion' ">
+            <ion-card-content class="ion-text-wrap ion-card-content-explicacion">
+              <h3 class="explicacion-title">EXPLICACIÓN:</h3>
+              <div class="explicacion" [innerHTML]="listaPreguntas[i].Explicacion | safeHtml"></div>
+            </ion-card-content> 
+            <!-- <ion-card-header color="warning" class="ion-text-center">          
+              <ion-card-title>
+                <ion-icon name="information-circle-outline"></ion-icon>
+              </ion-card-title>
+              <ion-card-subtitle>        
+                Explicación
+              </ion-card-subtitle>
+            </ion-card-header>    
+            <ion-card-content class="ion-text-wrap">
+              <div class="explicacion" [innerHTML]="listaPreguntas[i].Explicacion | safeHtml"></div>
+            </ion-card-content>     -->
+          </ion-card>
+          <br>
+          <br>
+          <br>
+          <ion-fab vertical="top" horizontal="start" *ngIf="listaPreguntas[i].Dudosa > 0" >
+            <ion-fab-button size="small" color="warning" (click)="infoDudosa()" title="Dudosa"><ion-icon name="help-circle-outline"></ion-icon></ion-fab-button>
+          </ion-fab>
+          <ion-fab vertical="top" horizontal="end" *ngIf="listaPreguntas[i].Contestada == 0">
+            <ion-fab-button size="small" color="white" title="Comunicar"><ion-icon name="hand-right-outline" color="black"></ion-icon></ion-fab-button>
+            <ion-fab-list>
+              <ion-fab-button size="small" (click)="nuevoComentario(i, listaPreguntas[i].IdPregunta)" title="Comentario"><ion-icon name="chatbubbles-outline" ></ion-icon></ion-fab-button>
+              <ion-fab-button size="small" (click)="impugnarPregunta(i, listaPreguntas[i].IdPregunta)" title="Impugnar"><ion-icon name="alert-circle-outline" color="danger"></ion-icon></ion-fab-button>
+            </ion-fab-list>
+          </ion-fab>
+          <ion-fab vertical="top" horizontal="end" *ngIf="listaPreguntas[i].Contestada == 1 && listaPreguntas[i].Acertada == 1">
+            <ion-fab-button size="small" color="white" title="Comunicar"><ion-icon name="happy-outline" color="success"></ion-icon></ion-fab-button>
+            <ion-fab-list>
+              <ion-fab-button size="small" (click)="nuevoComentario(i, listaPreguntas[i].IdPregunta)" title="Comentario"><ion-icon name="chatbubbles-outline" ></ion-icon></ion-fab-button>
+              <ion-fab-button size="small" (click)="impugnarPregunta(i, listaPreguntas[i].IdPregunta)" title="Impugnar"><ion-icon name="alert-circle-outline" color="danger"></ion-icon></ion-fab-button>
+            </ion-fab-list>
+          </ion-fab>
+          <ion-fab vertical="top" horizontal="end" *ngIf="listaPreguntas[i].Contestada == 1 && listaPreguntas[i].Fallada == 1">
+            <ion-fab-button size="small" color="white" title="Comunicar"><ion-icon name="sad-outline" color="danger"></ion-icon></ion-fab-button>
+            <ion-fab-list>
+              <ion-fab-button size="small" (click)="nuevoComentario(i, listaPreguntas[i].IdPregunta)" title="Comentario"><ion-icon name="chatbubbles-outline" ></ion-icon></ion-fab-button>
+              <ion-fab-button size="small" (click)="impugnarPregunta(i, listaPreguntas[i].IdPregunta)" title="Impugnar"><ion-icon name="alert-circle-outline" color="danger"></ion-icon></ion-fab-button>
+            </ion-fab-list>
+          </ion-fab>
+          </ion-card>
+        </ng-template>
+      </swiper>
+    </section>
+
+    <section *ngSwitchCase="'comparativa'" class="ion-text-center">
+      <!-- <p>Tu nota comparada con la nota media del resto de alumnos en este test</p> -->  
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="ion-text-center">
+            <ion-icon name="person" class="icon-person" color="primary" ></ion-icon>
+            </div>
+            <ion-badge class="nota" color="light">
+              Tu Nota
+            </ion-badge>
+            <h1 [ngClass]="nota >= 5 ? 'aprobado' : 'suspenso'" >{{nota}}</h1>                
+          </ion-col>
+          <ion-col>
+            <div class="ion-text-center">
+            <ion-icon name="people" class="icon-people"></ion-icon>
+            </div>
+            <ion-badge class="nota" color="light">
+              Nota Media
+            </ion-badge>
+            <h1 [ngClass]="mediaAlumnos >= 5 ? 'aprobado' : 'suspenso'" >{{mediaAlumnos}}</h1>            
+          </ion-col>          
+        </ion-row>
+      </ion-grid>  
+      <ion-card>
+        <ion-card-header color="primary" class="ion-text-center">          
+          <ion-card-title>
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </ion-card-title>
+          <ion-card-subtitle>        
+            Comparativa
+          </ion-card-subtitle>
+        </ion-card-header>    
+        <ion-card-content class="ion-text-wrap">
+          <br>
+          <h3>Estas viendo una <b>comparativa</b> entre tu nota y la nota media del resto de alumnos en este test</h3>
+        </ion-card-content>    
+      </ion-card>                
+    </section>
+
+    <section *ngSwitchCase="'ranking'" class="ion-text-center">      
+      <img src="../assets/imgs/ranking.png" width="50%">
+      <h1>RANKING</h1>
+      <h3>PRÓXIMAMENTE</h3>   
+      <ion-card>
+        <ion-card-header color="primary" class="ion-text-center">          
+          <ion-card-title>
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </ion-card-title>
+          <ion-card-subtitle>        
+            Criterios del ranking
+          </ion-card-subtitle>
+        </ion-card-header>    
+        <ion-card-content class="ion-text-wrap">
+          <br>
+          <h3>La clasificación del ranking se calcula en función de los resultados teniendo en cuenta la <b>nota, el tiempo y el número de veces realizado</b></h3>
+        </ion-card-content>    
+      </ion-card>      
+      <!-- <ion-card>
+        <ion-card-header color="primary" class="ion-text-center">          
+          <ion-card-title>
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </ion-card-title>
+          <ion-card-subtitle>        
+            Ley de protección de datos
+          </ion-card-subtitle>
+        </ion-card-header>    
+        <ion-card-content class="ion-text-wrap">
+          <br>
+          <h3>En cumplimiento de lo establecido en la <b>LOPDGDD</b> (Ley orgánica de protección de datos y garantía de derechos digitales), los datos son almacenados bajo la confidencialidad y las medidas de seguridad legalmente establecidas. Por este motivo <b>el resto de alumnos no podrá ver tu nombre completo</b> al igual que tú tampoco puedes ver el nombre completo del resto de alumnos, sólo su nombre y las iniciales de sus apellidos.</h3>
+        </ion-card-content>    
+      </ion-card>   -->
+    </section>
+
+  </div>
+
+</ion-content>

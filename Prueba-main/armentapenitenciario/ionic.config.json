@@ -1,0 +1,7 @@
+{
+  "name": "armentapenitenciario",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

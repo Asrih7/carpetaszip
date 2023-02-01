@@ -1,0 +1,154 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelar()" color="danger">
+        <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>    
+    <ion-buttons slot="primary">
+      <!-- <ion-button>
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button> -->
+      <ion-button (click)="info()" [ngClass]="test.Instrucciones == '' || test.Instrucciones == ' ' || test.Instrucciones == null ? 'hidden' : 'visible' ">
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button>
+      &nbsp;
+      <ion-button (click)="terminar()">
+        <ion-icon slot="icon-only" name="flag-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="numMinutos > 0">
+      <ion-icon *ngIf="timer >= 60" name="timer-outline"></ion-icon> 
+      <ion-icon *ngIf="timer < 60" name="alert-circle-outline" color="danger" ></ion-icon> 
+      {{ time | async }}
+    </ion-title> 
+  </ion-toolbar>
+</ion-header>
+
+<ion-menu side="start" menuId="indicePreguntas" contentId="indice">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-button (click)="closeMenu()">
+          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Preguntas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let pregunta of listaPreguntas; let i = index">
+          <ion-menu-toggle auto-hide="true">
+            <ion-button size="small" *ngIf="listaPreguntas[i].IdPregunta < 10 && listaPreguntas[i].Contestada == 0"  [ngClass]="listaPreguntas[i].Dudosa == 1 ? 'dudosa' : 'blanco' " (click)="goTo(i)">
+              {{'0' + (i+1)}}
+            </ion-button> 
+            <ion-button size="small" *ngIf="listaPreguntas[i].IdPregunta < 10 && listaPreguntas[i].Contestada > 0" [ngClass]="listaPreguntas[i].Dudosa == 1 ? 'dudosa_contestada' : '' " (click)="goTo(i)">
+              {{'0' + (i+1)}}
+            </ion-button> 
+            <ion-button size="small" *ngIf="listaPreguntas[i].IdPregunta > 9 && listaPreguntas[i].Contestada == 0" [ngClass]="listaPreguntas[i].Dudosa == 1 ? 'dudosa' : 'blanco' " (click)="goTo(i)">
+              {{i+1}}
+            </ion-button> 
+            <ion-button size="small" *ngIf="listaPreguntas[i].IdPregunta > 9 && listaPreguntas[i].Contestada > 0" [ngClass]="listaPreguntas[i].Dudosa == 1 ? 'dudosa_contestada' : '' " (click)="goTo(i)">
+              {{i+1}}
+            </ion-button> 
+          </ion-menu-toggle>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="indice"></ion-router-outlet>
+
+<ion-content>
+  <!-- <swiper #swiper [cssMode]="true" [pagination]="{ type: 'progressbar' }" [navigation]="false" -->
+  <!-- <swiper #swiper [config]="config"
+    (slideChange)="swiperSlideChanged($event)"> -->
+  <swiper #swiper [virtual]="true">
+    <ng-template swiperSlide *ngFor="let pregunta of listaPreguntas; let i = index">
+      <ion-card>
+        <ion-card-header class="ion-text-center">   
+          <ion-button fill="clear" (click)="prev()" [ngClass]="listaPreguntas[i].IdPregunta == 1 ? 'hidden' : 'visible' ">
+            <ion-icon slot="icon-only" name="caret-back"></ion-icon>
+          </ion-button> 
+          <ion-button fill="clear" (click)="openMenu()">
+            <ion-icon name="apps"></ion-icon>
+          </ion-button>
+          <!-- <ion-button fill="clear" (click)="verIndice($event)">
+            <ion-icon name="apps"></ion-icon>
+          </ion-button>    -->
+          <ion-button fill="clear" (click)="next()" [ngClass]="listaPreguntas[i].IdPregunta == numeroPreguntas ? 'none' : 'block' ">
+            <ion-icon slot="icon-only" name="caret-forward"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" (click)="terminar()" [ngClass]="listaPreguntas[i].IdPregunta == numeroPreguntas ? 'block' : 'none' ">
+            <ion-icon slot="icon-only" name="flag"></ion-icon>
+          </ion-button>
+          <ion-card-title color="primary">
+              <!-- Pregunta {{listaPreguntas[i].IdPregunta}} / {{numeroPreguntas}} -->
+              {{i + 1}} / {{numeroPreguntas}}
+          </ion-card-title>
+        </ion-card-header>
+
+        <!-- <ion-card-header color="primary" class="ion-text-center">
+          <ion-card-subtitle>        
+            {{listaTemas[i].TituloBloque}}
+          </ion-card-subtitle>
+          <ion-card-title>TEMA {{listaTemas[i].IdTema}}</ion-card-title>
+        </ion-card-header>
+    
+        <ion-card-content class="ion-text-wrap">
+          <h3><b>{{listaTemas[i].Titulo}}</b></h3>
+        </ion-card-content>     -->
+
+        <ion-card-content class="ion-text-wrap">
+            <h2><b>{{listaPreguntas[i].Texto}}</b></h2>
+        </ion-card-content>
+
+        <ion-card *ngFor="let respuesta of listaPreguntas[i].Respuestas; let j = index" button="true" (click)="seleccionar(listaPreguntas[i], listaPreguntas[i].Respuestas[j], listaPreguntas[i].Respuestas, j)">
+          <ion-card-content class="ion-text-wrap">
+              <ion-card-subtitle class="ion-text-left">
+                <ion-checkbox color="primary" [checked]="listaPreguntas[i].Respuestas[j].Seleccionada == 1 ? true : false" ></ion-checkbox>
+                <ion-label>{{listaPreguntas[i].Respuestas[j].Texto}}</ion-label>                
+                <!-- <ion-checkbox id="cb_{{listaPreguntas[i].IdPregunta}}_{{listaPreguntas[i].Respuestas[j].IdRespuesta}}" color="dark" checked="false" (ionChange)="seleccionar(listaPreguntas[i].IdPregunta, listaPreguntas[i].Respuestas[j], listaPreguntas[i].Respuestas, j)"></ion-checkbox> -->
+              </ion-card-subtitle>                  
+              <!-- <ion-item>
+                <ion-label>{{listaPreguntas[i].Respuestas[j].Texto}}</ion-label>
+                <ion-radio color="dark" checked="false" (click)="seleccionar(listaPreguntas[i].Respuestas[j])"></ion-radio>
+              </ion-item> -->
+            <!-- <ion-grid>
+              <ion-row>
+                <ion-col col-1>
+                  <div><ion-checkbox color="dark" (click)="seleccionar(listaPreguntas[i].Respuestas[j])"></ion-checkbox></div>
+                </ion-col>
+                <ion-col>
+                  <div>                          
+                    <button style="background-color:transparent" (click)="seleccionar(listaPreguntas[i].Respuestas[j])">                                     
+                      {{listaPreguntas[i].Respuestas[j].Texto}}                
+                    </button>
+                  </div>
+                </ion-col>
+              </ion-row>                        
+            </ion-grid>                 -->
+          </ion-card-content>                
+        </ion-card>
+        <br>
+        <br>
+        <br>
+        <!-- <ion-button color="tertiary" outline (click)="limpiar(listaPreguntas[i])"><ion-icon name="trash-outline"></ion-icon> LIMPIAR</ion-button> -->        
+        <!-- <ion-button *ngIf="listaPreguntas[i].Dudosa == 0" ion-button icon-start color="warning" outline (click)="marcarDudosa(listaPreguntas[i])"><ion-icon name="help-circle-outline"></ion-icon> DUDOSA</ion-button>
+        <ion-button *ngIf="listaPreguntas[i].Dudosa > 0" ion-button icon-start color="warning" (click)="desmarcarDudosa(listaPreguntas[i])"><ion-icon name="help-circle"></ion-icon> DUDOSA</ion-button> -->
+        <ion-fab vertical="bottom" horizontal="end">
+          <ion-fab-button size="small" color="white" (click)="limpiar(listaPreguntas[i])" title="Limpiar"><ion-icon name="trash-outline"></ion-icon></ion-fab-button>
+        </ion-fab>
+        <ion-fab *ngIf="listaPreguntas[i].Dudosa == 0 && tipoTest != 4" vertical="top" horizontal="start">
+          <ion-fab-button size="small" color="white" (click)="marcarDudosa(listaPreguntas[i])" title="Dudosa"><ion-icon name="help-circle-outline" color="warning"></ion-icon></ion-fab-button>
+        </ion-fab>
+        <ion-fab *ngIf="listaPreguntas[i].Dudosa > 0 && tipoTest != 4" vertical="top" horizontal="start">
+          <ion-fab-button size="small" color="warning" (click)="desmarcarDudosa(listaPreguntas[i])" title="Dudosa"><ion-icon name="help-circle-outline"></ion-icon></ion-fab-button>
+        </ion-fab>
+      </ion-card>
+    </ng-template>
+  </swiper>
+</ion-content>

@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">    
+    <ion-buttons slot="start">
+      <ion-back-button text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{notificacion.FechaEnvio}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        {{notificacion.FechaEnvio}}
+      </ion-card-subtitle>
+      <!-- <ion-card-title>
+        {{notificacion.Asunto}}
+      </ion-card-title> -->
+    </ion-card-header>
+    <ion-card-content class="ion-text-wrap">
+        <h2><b>{{notificacion.Asunto}}</b></h2>
+        <section class="notificacion" [innerHTML]="notificacion.Mensaje | safeHtml"></section>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

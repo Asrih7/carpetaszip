@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons slot="start">
+      <!-- <ion-button (click)="ayuda()">
+        <ion-icon slot="icon-only" name="help-circle-outline"></ion-icon>
+      </ion-button> -->
+      <ion-back-button text="Volver" *ngIf="simulacros === true"></ion-back-button>
+      <!-- <ion-button (click)="resultados()" *ngIf="simulacros === false">
+        <ion-icon slot="icon-only" name="ribbon-outline"></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <!-- <ion-button>
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button> -->      
+      <!-- <ion-button (click)="ordenar()">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+
+    <ion-title *ngIf="simulacros === false">Test</ion-title>
+    <ion-title *ngIf="simulacros === true">Simulacros</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="false">
+
+  <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350">
+
+    <ion-segment [(ngModel)]="all" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="all">        
+        <ion-icon name="checkbox-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="undone">        
+        <ion-icon name="square-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="done">        
+        <ion-icon name="checkbox"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="paused">        
+        <ion-icon name="pause-outline"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="all">
+      
+      <ion-list>
+
+        <!-- Begin Filtro -->
+        <ion-row>
+          <ion-col>
+            <ion-searchbar (ionInput)="getTest($event)" placeholder="Buscar por título, etiqueta o tema"></ion-searchbar>
+          </ion-col>
+          <ion-col size="2">
+            <ion-button icon-start fill="clear" (click)="ordenar()">
+              <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <!-- End Filtro -->
+        
+        <!-- <button ion-item icon-start *ngFor="let test of listaTest; let i = index" (click)="configurarTest(listaTest[i], false)"> -->
+        <ion-item *cdkVirtualFor="let test of listaTest; let isOdd = odd; let i = index" [class.odd]="isOdd" button="true" (click)="hacerTest(listaTest[i])">          
+          <ion-icon *ngIf="listaTest[i].Pendiente == 0" slot="start" name="checkbox" [ngClass]="listaTest[i].Realizado > 0 ? 'test-done' : 'test-undone' "></ion-icon>
+          <ion-icon *ngIf="listaTest[i].Pendiente > 0" slot="start" name="pause" class="test-pending" ></ion-icon>
+          <ion-label class="ion-text-wrap">            
+            <ion-badge class="tema" [ngClass]="listaTest[i].IdTema != '' ? 'visible' : 'hidden' ">Tema {{listaTest[i].IdTema}}</ion-badge>
+            <!-- Begin Etiquetas -->
+            <ng-container *ngFor="let etiquetaTest of test.Etiquetas.split('][')">
+              <ion-badge *ngIf="etiquetaTest != ''" class="etiqueta" color="light">
+                {{etiquetaTest}}
+              </ion-badge>
+            </ng-container>
+            <!-- End Etiquetas -->
+            <br>      
+            <ion-icon color="primary" name="information-circle-outline" *ngIf="listaTest[i].Instrucciones != '' && listaTest[i].Instrucciones != ' ' && listaTest[i].Instrucciones != null"></ion-icon>
+            {{listaTest[i].Nombre}}
+            <section class="info">            
+              <label><b>{{listaTest[i].NumPreg}}</b> preguntas</label>
+              &nbsp;
+              <ion-icon slot="start" name="repeat" [ngClass]="listaTest[i].Limite > 0 ? 'visible' : 'hidden' "></ion-icon><label [ngClass]="listaTest[i].Limite > 0 ? 'visible' : 'hidden' ">{{listaTest[i].Realizado}}/{{listaTest[i].Limite}}</label>          
+              &nbsp;
+              <ion-icon *ngIf="listaTest[i].Realizado > 0" slot="start" name="person" [ngClass]="listaTest[i].UltimoResultado < 5 ? 'test-fail' : 'test-pass' "></ion-icon><label *ngIf="listaTest[i].Realizado > 0" [ngClass]="listaTest[i].UltimoResultado < 5 ? 'test-fail' : 'test-pass' ">{{listaTest[i].UltimoResultado}} vs </label>          
+              <ion-icon *ngIf="listaTest[i].Realizado > 0" slot="start" name="people" [ngClass]="listaTest[i].UltimoResultado < 5 ? 'test-fail' : 'test-pass' "></ion-icon><label *ngIf="listaTest[i].Realizado > 0" [ngClass]="listaTest[i].UltimoResultado < 5 ? 'test-fail' : 'test-pass' ">{{listaTest[i].Media}}</label>
+            </section>
+          </ion-label>
+          <!-- {{listaTest[i].FechaPublicacion}}
+          {{currentDate | date:'dd/MM/yyyy'}}
+          {{lastMonthDate | date:'dd/MM/yyyy'}}
+          {{esReciente(listaTest[i].FechaPublicacion, lastMonthDate | date:'dd/MM/yyyy')}} -->
+          <ion-icon name="time-outline" slot="end" *ngIf="esReciente(listaTest[i].FechaPublicacion)"></ion-icon>
+        </ion-item>
+        <section class="ion-padding ion-text-center" *ngIf="listaTest != null && listaTest.length < 1">
+          <img width="200" src="../assets/imgs/empty.png">
+        </section>
+      </ion-list>
+      
+    </div>
+
+  </cdk-virtual-scroll-viewport>
+
+</ion-content>

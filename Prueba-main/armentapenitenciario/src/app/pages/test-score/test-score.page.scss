@@ -1,0 +1,12 @@
+.etiqueta {color:light; font-weight: bold; font-size: x-small;margin-right: 5px;}
+
+.info {color:light; font-size: small}
+
+.test-done { color: var(--ion-color-primary); font-size: larger !important}
+.test-undone { color: lightgrey; font-size: larger !important}
+.test-pending { color: red; font-size: larger !important}
+.test-pass { color: #18D272; font-size: 1.1em !important}
+.test-fail { color: #f53d3d; font-size: 1.1em !important}
+
+.visible { visibility: visible !important}
+.hidden { visibility: hidden !important}

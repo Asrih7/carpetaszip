@@ -1,0 +1,112 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <!-- <ion-buttons slot="start">
+      <ion-button (click)="ayuda()">
+        <ion-icon slot="icon-only" name="help-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+    <!-- <ion-buttons slot="primary">
+      <ion-button (click)="filtro()">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+
+    <ion-title>Foro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen [scrollY]="false">
+
+  <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350">
+
+  <!-- <ion-segment [(ngModel)]="foros" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="foros">        
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button value="cerrados">
+      <ion-icon name="lock-closed-outline"></ion-icon>
+    </ion-segment-button> 
+    <ion-segment-button value="abiertos">
+      <ion-icon name="lock-open-outline"></ion-icon>
+    </ion-segment-button>
+  </ion-segment> -->
+
+  <!-- <div [ngSwitch]="foros"> -->
+    <ion-searchbar id="input" (ionInput)="getItems($event)" placeholder="Buscar por título o comentario"></ion-searchbar>  
+    <ion-card *cdkVirtualFor="let item of items; let isOdd = odd; let i = index" [class.odd]="isOdd" button="true" (click)="leerTema(items[i])">
+      <ion-card-header>
+        <ion-card-subtitle>        
+          <ion-icon name="time-outline"></ion-icon> {{items[i].Fecha}}
+        </ion-card-subtitle>
+        <ion-card-title>
+          <!-- {{items[i].Usuario}} -->
+          <ion-chip>
+            <ion-avatar>
+              <img src="../assets/imgs/icon.png">
+            </ion-avatar>
+            <!-- <ion-icon name="settings-outline"></ion-icon> -->
+            <ion-label>{{items[i].Usuario | uppercase}}</ion-label>
+          </ion-chip>
+        </ion-card-title>
+      </ion-card-header>
+  
+      <ion-card-content class="ion-text-wrap">
+        <!-- <h3><b>{{items[i].Titulo}}</b></h3> -->
+        <h3><b><section [innerHTML]="items[i].Titulo | safeHtml"></section></b></h3>
+      </ion-card-content>  
+
+      <!-- <ion-item>
+        <ion-avatar item-start>
+          <img src="../assets/imgs/icon.png">
+        </ion-avatar>
+        <h2>{{items[i].Usuario}}</h2>
+        <p><ion-icon small name="md-time"></ion-icon> {{items[i].Fecha}}</p>
+      </ion-item> -->
+    
+      <!-- <img src="img/advance-card-bttf.png"> -->
+    
+      <!-- <ion-card-content text-wrap> -->
+        <!-- <h3><b>{{items[i].Titulo}}</b></h3> -->
+        <!-- <p>{{items[i].Comentario}}</p> -->
+        <!-- <div class="comentario" [innerHTML]="items[i].Comentario | safeHtml"></div> -->
+      <!-- </ion-card-content> -->
+    
+      <ion-row>
+        <!-- <ion-col>
+          <button ion-button icon-start clear small>
+            <ion-icon name="thumbs-up"></ion-icon>
+            <div>12 Likes</div>
+          </button>
+        </ion-col> -->
+        <ion-col>
+          <ion-button size="small" fill="clear" icon-start (click)="leerTema(items[i])">
+            <ion-icon *ngIf="items[i].Respuestas > 0" name="chatbubbles"></ion-icon>
+            <ion-icon *ngIf="items[i].Respuestas == 0" name="chatbubbles-outline"></ion-icon>
+            {{items[i].Respuestas}}
+            <ion-icon *ngIf="items[i].Anclado == true" name="flag" class="anclado"></ion-icon>
+            <ion-icon *ngIf="items[i].Estado == true" name="lock-closed" class="cerrado"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-text-right">
+          <ion-note>
+            <ion-button size="small" icon-start (click)="leerTema(items[i])" >
+                <ion-icon name='eye'></ion-icon>
+                Leer
+            </ion-button> 
+          </ion-note>
+        </ion-col>
+      </ion-row>    
+      
+    </ion-card>  
+    <section class="ion-padding ion-text-center" *ngIf="items != null && items.length < 1">
+      <img width="200" src="../assets/imgs/empty.png">
+    </section>
+  <!-- </div> -->
+
+  </cdk-virtual-scroll-viewport>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [disabled]="accesoForo == 0" (click)="nuevoTema()"><ion-icon name="create-outline"></ion-icon></ion-fab-button>
+  </ion-fab>
+
+</ion-content>

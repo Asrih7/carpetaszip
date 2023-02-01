@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Mis Resultados </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>     
+    <ion-searchbar (ionInput)="getItems($event)" placeholder="Buscar por título o tema"></ion-searchbar>
+    <!-- ************************************************************************************************************************** -->
+    <!-- SE DESACTIVA LA POSIBILIDAD DE VOLVER A HACER UN TEST YA QUE NO SE ESTÁN DISTINGUIENDO TEST DE TEMA DE LOS CASOS PRACTICOS -->
+    <!-- ************************************************************************************************************************** -->
+    <!-- <button ion-item icon-start *ngFor="let resultado of listaResultados; let i = index" (click)="repeat(listaResultados[i])">             
+      <p>
+        <ion-icon small name="md-time"></ion-icon>{{listaResultados[i].Fecha}}
+        &nbsp;
+        <ion-icon small name="ios-ribbon" [ngClass]="listaResultados[i].Resultado < 50 ? 'test-fail' : 'test-pass' "></ion-icon><label [ngClass]="listaResultados[i].Resultado < 50 ? 'test-fail' : 'test-pass' ">{{listaResultados[i].Resultado}}/100</label>
+      </p> 
+      {{listaResultados[i].Nombre}}
+      <ion-badge item-end>{{listaResultados[i].Tema}}</ion-badge>
+    </button> -->
+    <ion-item *ngFor="let resultado of listaResultados; let i = index">                             
+        <ion-label class="ion-text-wrap">          
+          <ion-badge slot="end" [ngClass]="listaResultados[i].Tema != 'Sin tema' ? 'visible' : 'hidden' ">{{listaResultados[i].Tema}}</ion-badge>
+          <br> 
+          {{listaResultados[i].Nombre}}
+          <section class="info">
+            <ion-icon slot="start" size="small" name="ribbon" [ngClass]="listaResultados[i].Resultado/100 < 5 ? 'test-fail' : 'test-pass' "></ion-icon><label [ngClass]="listaResultados[i].Resultado/100 < 5 ? 'test-fail' : 'test-pass' "> {{this.decimalPipe.transform(listaResultados[i].Resultado/100, '1.2-2')}}</label>
+            &nbsp;            
+            <ion-icon slot="start" size="small" name="calendar-outline"></ion-icon> {{listaResultados[i].Fecha}}
+          </section>
+        </ion-label>        
+      </ion-item>
+  </ion-list>
+
+</ion-content>

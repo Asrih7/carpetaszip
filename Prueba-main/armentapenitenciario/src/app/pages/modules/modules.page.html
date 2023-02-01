@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <!-- <ion-buttons slot="start">
+      <ion-button (click)="ayuda()">
+        <ion-icon slot="icon-only" name="help-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+    <!-- <ion-buttons slot="primary">
+      <ion-button (click)="filtro()">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+    <ion-title>Temario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-searchbar (ionInput)="getItems($event)" placeholder="Buscar por tema o título"></ion-searchbar>
+  <!-- <ion-list *ngIf="listaTemas != null && listaTemas.length > 1">     
+    <ion-item *ngFor="let tema of listaTemas; let i = index" (click)="irAModulo(listaTemas[i])">
+      <ion-badge slot="start" item-end>Tema {{listaTemas[i].IdTema}}</ion-badge>
+      <ion-button >
+        <div style="float:left">
+          <ion-icon name="bookmarks" class="module-icon"></ion-icon>  
+        </div>
+        <h3 style="color:gray;font-weight: bold; font-size: x-small">{{listaTemas[i].TituloBloque}}</h3>   
+        {{listaTemas[i].Titulo}}
+      </ion-button>
+    </ion-item>
+  </ion-list>
+  <section class="ion-padding ion-text-center" *ngIf="listaTemas != null && listaTemas.length < 1">
+    <img width="200" src="../assets/imgs/empty.png" (click)="sinCursos()">
+  </section> -->
+
+  <ion-card *ngFor="let tema of listaTemas; let i = index" button="true" (click)="irAModulo(listaTemas[i])">
+    <ion-card-header color="primary" class="ion-text-center">
+      <ion-card-subtitle>        
+        {{listaTemas[i].TituloBloque}}
+      </ion-card-subtitle>
+      <ion-card-title>TEMA {{listaTemas[i].IdTema}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="ion-text-wrap">
+      <h3><b>{{listaTemas[i].Titulo}}</b></h3>
+    </ion-card-content>    
+  </ion-card> 
+
+  <section class="ion-padding ion-text-center" *ngIf="listaTemas != null && listaTemas.length < 1">
+    <img width="200" src="../assets/imgs/empty.png">
+  </section>
+
+</ion-content>

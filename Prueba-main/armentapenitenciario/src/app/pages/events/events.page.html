@@ -1,0 +1,161 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="Volver"></ion-back-button>
+      <!-- <ion-button (click)="volver()">
+        <ion-icon name="chevron-back-outline"> Volver</ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+    <ion-title>Eventos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="cards-bg social-cards">
+  <div padding>
+    <ion-segment [(ngModel)]="eventos" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="eventos">
+        Eventos
+      </ion-segment-button>
+      <ion-segment-button value="misEventos">
+        Mis Eventos
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="eventos">
+    <!-- <ion-list class="ion-text-wrap" *ngSwitchCase="'eventos'"> -->
+    <ion-list class="ion-text-wrap">
+      <ion-searchbar id="input" (ionInput)="getItems($event)" placeholder="Buscar por nombre o fecha"></ion-searchbar>  
+      <!-- <ion-card class="ion-text-wrap" ion-item *ngFor="let item of items; let i = index" [ngClass]="items[i].Apuntado == true ? 'hidden' : 'visible' "> -->
+      <ion-card class="ion-text-wrap" ion-item *ngFor="let item of items; let i = index">
+        <!-- {{currentDate | date:'dd-MM-yyyy'}} -->
+        <ion-card-header>          
+          <ion-row>
+            <ion-col size="3">
+              <!-- <div class="ion-text-left"> -->
+              <ion-avatar item-start>
+                <img src="../assets/imgs/icon.png">
+                <!-- <img *ngIf="item.Imagen == 0" src="../assets/imgs/icon.png">
+                <img *ngIf="item.Imagen == 1" src="https://aulavirtualctp.com/Academias/Cursos/imgCurso.ashx?ID={{item.IdCurso}}"> -->
+              </ion-avatar>
+              <!-- </div> -->
+            </ion-col>
+            <ion-col>
+              <ion-card-subtitle> 
+                <ion-icon small name="calendar-clear-outline"></ion-icon> {{items[i].FechaInicioEvento}}
+                <p [ngClass]="(items[i].FechaFinEvento == '' || items[i].FechaFinEvento == ' ' || items[i].FechaFinEvento == null || items[i].FechaFinEvento == '31/12/9999 23:59:59') ? 'hidden' : 'visible' ">
+                  <!-- <ion-icon small name="md-alarm" class="danger"></ion-icon> {{items[i].FechaFinEvento | date: 'dd/MM/yyyy H:mm'}} -->
+                  <ion-icon small name="alarm-outline" class="danger"></ion-icon> {{items[i].FechaFinEvento}}
+                </p>
+              </ion-card-subtitle>
+              <ion-card-title>
+                <!-- <ion-avatar item-start>
+                  <img src="../assets/imgs/icon.png">
+                  <img *ngIf="item.Imagen == 0" src="../assets/imgs/icon.png">
+                  <img *ngIf="item.Imagen == 1" src="https://aulavirtualctp.com/Academias/Cursos/imgCurso.ashx?ID={{curso.IdCurso}}">
+                </ion-avatar> -->
+                {{items[i].Nombre}}
+              </ion-card-title>
+            </ion-col>
+          </ion-row>
+        </ion-card-header>
+        
+        <!-- <ion-card-content class="ion-text-wrap">
+
+        </ion-card-content> -->
+        <!-- <ion-item >
+          <ion-avatar item-start>
+            <img src="../assets/imgs/icon.png">
+          </ion-avatar>
+          <ion-avatar slot="start" >
+            <img *ngIf="item.Imagen == 0" src="../assets/imgs/icon.png">
+            <img *ngIf="item.Imagen == 1" src="https://aulavirtualctp.com/Academias/Cursos/imgCurso.ashx?ID={{curso.IdCurso}}">
+          </ion-avatar>
+          <h2>{{items[i].Nombre}}</h2>
+          <p>
+            <ion-icon small name="calendar-clear-outline"></ion-icon> {{items[i].FechaInicioEvento}}
+          </p>
+          <p [ngClass]="(items[i].FechaFinEvento == '' || items[i].FechaFinEvento == ' ' || items[i].FechaFinEvento == null || items[i].FechaFinEvento == '31/12/9999 23:59:59') ? 'hidden' : 'visible' ">
+            <ion-icon small name="alarm-outline" class="danger"></ion-icon> {{items[i].FechaFinEvento}}
+          </p>
+        </ion-item> -->
+      
+        <!-- <img src="img/advance-card-bttf.png"> -->
+      
+        <!-- <ion-card-content> -->
+          <!-- <h3><ion-icon name="information-circle-outline"></ion-icon><b>INFO</b></h3> -->
+          <!-- <div class="informacion" [innerHTML]="items[i].Descripcion | safeHtml"></div> -->
+        <!-- </ion-card-content> -->
+      
+        <ion-card-content>
+        <ion-row>
+          <!-- <ion-col>
+            <button ion-button icon-start clear small>
+              <ion-icon name="thumbs-up"></ion-icon>
+              <div>12 Likes</div>
+            </button>
+          </ion-col> -->
+          <ion-col>
+              <p [ngClass]="(items[i].Ubicacion == '' || items[i].Ubicacion == ' ' || items[i].Ubicacion == null) ? 'hidden' : 'visible' ">
+                <ion-icon name="location"></ion-icon> {{items[i].Ubicacion}}
+              </p>
+              <p [ngClass]="items[i].Aforo > 0 ? 'visible' : 'hidden' ">
+                <ion-icon name="people"></ion-icon>
+                Plazas limitadas: {{items[i].NumAlumnos}} / {{items[i].Aforo}}
+              </p>
+              <p [ngClass]="items[i].Aforo == 0 ? 'visible' : 'hidden' ">
+                <ion-icon name="people"></ion-icon>
+                {{items[i].NumAlumnos}} alumnos apuntados
+              </p>
+            <!-- <p [ngClass]="((items[i].Aforo > 0) && (items[i].Aforo > items[i].NumAlumnos)) ? 'visible' : 'hidden' ">
+              <ion-icon small name="md-people"></ion-icon>
+              Plazas limitadas: {{items[i].NumAlumnos}} / {{items[i].Aforo}}
+            </p>
+            <p [ngClass]="((items[i].Aforo > 0) && (items[i].NumAlumnos >= items[i].Aforo)) ? 'visible' : 'hidden' ">
+              <ion-icon small name="md-people"></ion-icon>
+              ¡AFORO COMPLETO!
+            </p> -->
+          </ion-col>
+          <ion-col class="ion-text-right">
+                <ion-button ion-button icon-start fill="clear" class="info" (click)="info(items[i].Descripcion)" [ngClass]="(items[i].Apuntado == true) || (items[i].Descripcion == '' || items[i].Descripcion == ' ' || items[i].Descripcion == null) ? 'hidden' : 'visible' ">
+                  <ion-icon name="information-circle"></ion-icon>
+                </ion-button>
+                <!-- <button ion-button icon-start clear class="info" (click)="borrar(items[i].IdCurso)" [ngClass]="(items[i].Apuntado == true) && (items[i].FechaFinEvento != '' && items[i].FechaFinEvento != null && ((items[i].FechaFinEvento.toDate | date:'dd/MM/yyyy HH:mm:ss') > (items[i].FechaHoy.toDate | date:'dd/MM/yyyy HH:mm:ss'))) ? 'visible' : 'hidden' "> -->
+                <ion-button ion-button icon-start fill="clear" class="info" (click)="borrar(items[i].IdCurso, items[i].FechaFinEvento, items[i].FechaHoy)" [ngClass]="(items[i].Apuntado == true) ? 'visible' : 'hidden' ">
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+            <!-- <ion-note [ngClass]="(items[i].Apuntado == false) && ((items[i].Aforo == 0) || ((items[i].Aforo > 0) && (items[i].Aforo > items[i].NumAlumnos))) ? 'visible' : 'hidden' "> -->
+                <!-- <button size="small" icon-start (click)="meApunto(items[i].Codigo, items[i].FechaFinEvento, items[i].FechaHoy)" >
+                    <ion-icon name='md-hand-right'></ion-icon>
+                    ¡ME APUNTO!
+                </button>  -->
+                <ion-button [ngClass]="(items[i].Apuntado == false) && ((items[i].Aforo == 0) || ((items[i].Aforo > 0) && (items[i].Aforo > items[i].NumAlumnos))) ? 'visible' : 'hidden' " size="small" icon-start (click)="meApunto(items[i].IdCurso, items[i].Codigo)" >
+                  <ion-icon name='hand-right'></ion-icon>
+                  ME APUNTO
+                </ion-button>
+            <!-- </ion-note> -->
+            <!-- <ion-note [ngClass]="(items[i].Apuntado == false) && ((items[i].Aforo > 0) && ((items[i].Aforo > 0) && (items[i].NumAlumnos >= items[i].Aforo))) ? 'visible' : 'hidden' ">             -->
+                <ion-button [ngClass]="(items[i].Apuntado == false) && ((items[i].Aforo > 0) && ((items[i].Aforo > 0) && (items[i].NumAlumnos >= items[i].Aforo))) ? 'visible' : 'hidden' " size="small" icon-start class="completo" (click)="completo()" >
+                    <ion-icon name='people'></ion-icon>
+                    COMPLETO
+                </ion-button> 
+            <!-- </ion-note> -->
+            <!-- <ion-note [ngClass]="items[i].Apuntado == true ? 'visible' : 'hidden' "> -->
+                <ion-button [ngClass]="items[i].Apuntado == true ? 'visible' : 'hidden' " size="small" icon-start class="apuntado" (click)="apuntado()" >
+                    <ion-icon name='happy'></ion-icon>
+                    APUNTADO
+                </ion-button> 
+            <!-- </ion-note> -->
+          </ion-col>
+        </ion-row>  
+        </ion-card-content>  
+        
+      </ion-card> 
+      <section class="ion-padding ion-text-center" *ngIf="items != null && items.length < 1">
+        <img width="200" src="../assets/imgs/empty.png">
+      </section>
+    </ion-list>
+
+  </div>   
+
+</ion-content>

@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+      <ion-buttons slot="start">
+        <!-- <ion-button *ngIf="nombreCurso == null" (click)="ayudaMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="nombreCurso != null" (click)="openMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+        </ion-button> -->
+        <!-- <ion-button (click)="openMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+        </ion-button> -->
+        <!-- <ion-button (click)="miCuenta()">
+          <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+        </ion-button> -->
+      </ion-buttons>
+      <ion-buttons slot="primary">        
+        <!-- <ion-button (click)="notificaciones()">
+          <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+        </ion-button> -->
+        <!-- <ion-button (click)="ayuda()">
+          <ion-icon slot="icon-only" name="help-circle-outline"></ion-icon>
+        </ion-button> -->
+      </ion-buttons>
+
+      <ion-title>Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center" [scrollY]="false">
+    <header class="ion-padding">
+      <!-- <ion-img class="logo image-center" src="../assets/imgs/logo.png" style="background-color: transparent" (click)="ayuda()"></ion-img>   -->
+      <ion-img *ngIf="darkMode == null || darkMode == false" class="logo image-center" src="../assets/imgs/logo.png"></ion-img>
+      <ion-img *ngIf="darkMode == true" class="logo image-center" src="../assets/imgs/logo-dark.png"></ion-img>
+      <section>
+        <!-- <ion-chip (click)="miCuenta()">
+          <ion-avatar>
+            <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg">
+          </ion-avatar>
+          <ion-label>{{nick | uppercase}}</ion-label>
+        </ion-chip> -->
+      </section>
+    </header>
+    <ion-avatar class="image-center">        
+      <!-- <img *ngIf="idCurso == null" src="../assets/imgs/icon.png" button="true" (click)="ayuda()"> -->
+      <ion-icon *ngIf="idCurso == null" name="alert-circle-outline" class="icon-avatar" button="true" (click)="ayudaCursos()"></ion-icon>
+      <img *ngIf="idCurso != null && imagen == 0" src="../assets/imgs/icon.png">
+      <img *ngIf="idCurso != null && imagen == 1" src="https://aulavirtualctp.com/Academias/Cursos/imgCurso.ashx?ID={{idCurso}}">
+    </ion-avatar>
+    <h5 *ngIf="idCurso == null">Selecciona un curso...</h5>
+    <h5 *ngIf="idCurso != null">{{nombreCurso | uppercase}}</h5>
+    <!-- <p>{{nombreCurso}}</p> -->
+    <!-- <p>{{oposicion | uppercase}}</p> -->    
+    <!-- <section>
+      <ion-button *ngIf="cursos != null && cursos.length > 1" shape="round" size="small" (click)="verCursos()"><ion-icon slot="icon-only" name="school"></ion-icon>Seleccionar curso</ion-button>
+    </section> -->
+    <section>
+    <!-- <ion-button class="ion-text-wrap" expand="full" (click)="verCursos()">        
+        {{nombreCurso}}
+    </ion-button> -->
+    <ion-button class="ion-text-wrap" expand="full" (click)="miCuenta()">   
+      <!-- <ion-icon slot="icon-only" name="school"></ion-icon>&nbsp; -->
+      <!-- MIS CURSOS -->
+      <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>&nbsp;
+      {{nick | uppercase}}
+    </ion-button>
+  </section>
+  <ion-searchbar (ionInput)="getCursos($event)" placeholder="Buscar curso"></ion-searchbar>
+  <ion-list *ngIf="cursos != null && cursos.length > 0" class="ion-list-cursos">
+    <ion-item *ngFor="let curso of cursos; let isOdd = odd; let i = index" [class.odd]="isOdd" button="true" (click)="cargarCurso(curso)" [ngClass]="curso.IdCurso == idCurso ? 'curso-activo' : '' ">
+      <ion-avatar slot="start" >
+        <img *ngIf="curso.Imagen == 0" src="../assets/imgs/icon.png">
+        <img *ngIf="curso.Imagen == 1" src="https://aulavirtualctp.com/Academias/Cursos/imgCurso.ashx?ID={{curso.IdCurso}}">
+      </ion-avatar>
+      <ion-label class="ion-text-wrap">{{curso.Nombre}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <section class="ion-padding ion-text-center" *ngIf="cursos != null && cursos.length < 1">
+    <!-- <ion-label>No estás matriculado en ningún curso</ion-label> -->
+    <img width="200" src="../assets/imgs/empty.png" (click)="sinCursos()">
+  </section>
+    
+    <!-- <ion-item>
+        <ion-icon name="md-unlock" item-start></ion-icon>
+        Acceso
+        <ion-badge item-end>{{mesAcceso}}</ion-badge>
+    </ion-item> -->
+
+    <!-- <ion-item>
+        <ion-icon name="checkbox-outline"></ion-icon>
+        Test Realizados
+        <ion-badge slot="end">{{resultados}}</ion-badge>
+    </ion-item>
+    <ion-item>
+        <ion-icon name="calendar-outline"></ion-icon>
+        Test Realizados esta semana
+        <ion-badge slot="end">{{semanal}}</ion-badge>
+    </ion-item>
+    <ion-item>
+        <ion-icon name="thumbs-up-outline"></ion-icon>
+        Test Aprobados
+        <ion-badge slot="end">{{aprobados}}%</ion-badge>
+    </ion-item>
+    <ion-item>
+        <ion-icon name="ribbon-outline"></ion-icon>
+        Nota Media
+        <ion-badge slot="end">{{media}}</ion-badge>
+    </ion-item> -->
+
+</ion-content>

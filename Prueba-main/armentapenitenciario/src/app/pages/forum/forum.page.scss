@@ -1,0 +1,31 @@
+ion-chip{
+    font-size: xx-small;
+}
+
+.social-cards ion-col {
+    padding: 0;
+  }    
+  
+.comentario{
+    white-space: normal !important; 
+    text-align: justify;
+}
+
+.anclado{
+    padding-left:10px;
+    color:orange;
+}
+
+.cerrado{
+    padding-left:10px;
+    color:red;
+}
+
+cdk-virtual-scroll-viewport {
+    height: 100%;
+    width: 100%;
+}
+
+.odd{
+    --ion-item-background: var(--ion-color-light)
+}

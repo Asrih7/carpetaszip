@@ -1,0 +1,66 @@
+<ion-content class="ion-padding ion-text-center" [scrollY]="false">
+    <form>
+      <div class="ion-text-end">
+        <ion-buttons class="help-button">
+          <ion-button (click)="ayuda()">
+            <ion-icon slot="icon-only" name="help-circle-outline" class="ayuda"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </div>
+      <header>
+        <p class="ayuda">AULA VIRTUAL</p>
+      </header>
+      <section>
+        <ion-img class="logo image-center" src="../assets/imgs/logo-login.png"></ion-img>
+      </section>
+      <ion-list>
+        <ion-item>
+          <ion-input [(ngModel)]="username" name="username" type="text" placeholder="Email" required></ion-input>
+          <!-- <ion-input [(ngModel)]='loginModel.userName' name="email" type="text" placeholder="Email" required></ion-input> -->
+        </ion-item>
+        <ion-item>
+          <ion-input [(ngModel)]="password" name="password" type="password" placeholder="Contraseña"></ion-input>
+          <!-- <ion-input [(ngModel)]='loginModel.password' name="psw" type="password" placeholder="Contraseña"></ion-input> -->
+        </ion-item>      
+      </ion-list>
+      
+      <div class="ion-padding">
+        <ion-button expand="block" [disabled]="!username" (click)="login()">Entrar</ion-button>
+        <ion-button expand="block" fill="clear" color="light" (click)="forget()">¿Olvidaste tu contraseña?</ion-button>
+        <!-- <button ion-button mini clear color="light"(click)="ayuda()">FAQ</button> -->
+        <!-- <button ion-fab mini color="light" (click)="ayuda()"><ion-icon name="md-help"></ion-icon></button> -->
+        <br>
+        <br>
+        <!-- <button ion-button icon-only class="button-social" (click)="facebook()">
+          <ion-icon name="logo-facebook"></ion-icon>
+        </button>
+        <button ion-button icon-only class="button-social" (click)="twitter()">
+          <ion-icon name="logo-twitter"></ion-icon>
+        </button> -->
+        <!-- <ion-fab top right>
+          <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+          <ion-fab-list>
+            <button ion-fab (click)="ayuda()"><ion-icon name="md-help-circle"></ion-icon></button>
+            <button ion-fab (click)="facebook()"><ion-icon name="logo-facebook"></ion-icon></button>
+            <button ion-fab (click)="twitter()"><ion-icon name="logo-twitter"></ion-icon></button>
+          </ion-fab-list>
+        </ion-fab> -->
+
+        <!-- <ion-fab>
+            <button ion-fab><ion-icon name="add"></ion-icon></button>
+            <ion-fab-list side="top">
+              <button ion-fab color="danger"><ion-icon name="logo-googleplus"></ion-icon></button>
+            </ion-fab-list>
+            <ion-fab-list side="bottom">
+              <button ion-fab color="light"(click)="ayuda()"><ion-icon name="md-help"></ion-icon></button>
+            </ion-fab-list>
+            <ion-fab-list side="left">
+              <button ion-fab color="facebook" (click)="facebook()"><ion-icon name="logo-facebook"></ion-icon></button>
+            </ion-fab-list>
+            <ion-fab-list side="right">
+              <button ion-fab color="twitter" (click)="twitter()"><ion-icon name="logo-twitter"></ion-icon></button>
+            </ion-fab-list>
+          </ion-fab>         -->
+      </div>
+    </form>
+</ion-content>

@@ -1,0 +1,17 @@
+ion-slides { height: initial; } 
+ion-checkbox { margin-right: 1em; }
+// ion-card { width:100%; }
+ion-card-subtitle { font-size: small; text-transform:none; }
+ion-fab-button { margin: 0}
+
+.visible { visibility: visible !important}
+.hidden { visibility: hidden !important}
+
+.block { display: inline-block !important}
+.none { display: none !important}
+
+.expand { width:100% !important}
+
+.blanco{ --background:lightgray !important; }
+.dudosa{ --background:orange !important; }
+.dudosa_contestada{ color:orange !important; }

@@ -1,0 +1,20 @@
+.tema {font-size: x-small;margin-right: 5px;}
+.etiqueta {color:light;font-weight: bold; font-size: x-small;margin-right: 5px;}
+
+.cabecera {color:light;font-weight: bold; font-size: small}
+.info {color:light; font-size: small}
+
+.doc-read { color: var(--ion-color-primary); font-size: larger !important; vertical-align: -webkit-baseline-middle;}
+.doc-unread { color: lightgrey; font-size: larger !important; vertical-align: -webkit-baseline-middle;}
+
+.video-viewed { color: var(--ion-color-primary); font-size: larger !important}
+.video-unviewed { color: lightgrey; font-size: larger !important}
+
+.test-done { color: var(--ion-color-primary); font-size: larger !important}
+.test-undone { color: lightgrey; font-size: larger !important}
+.test-pending { color: red; font-size: larger !important}
+.test-pass { color: #18D272; font-size: 1.1em !important}
+.test-fail { color: #f53d3d; font-size: 1.1em !important}
+
+.visible { visibility: visible !important}
+.hidden { visibility: hidden !important}

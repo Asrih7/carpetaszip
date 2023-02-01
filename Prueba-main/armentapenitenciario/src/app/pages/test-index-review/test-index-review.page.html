@@ -1,0 +1,22 @@
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let pregunta of preguntas; let i = index">
+        <ion-button size="small" color="light" *ngIf="preguntas[i].IdPregunta < 10 && preguntas[i].Contestada == 0" (click)="goTo(preguntas[i].IdPregunta)">
+          {{'0' + preguntas[i].IdPregunta}}
+        </ion-button> 
+        <ion-button size="small" *ngIf="preguntas[i].IdPregunta < 10 && preguntas[i].Contestada > 0" [ngClass]="preguntas[i].Acertada == 1 ? 'acierto' : preguntas[i].Fallada == 1 ? 'fallo' : '' " (click)="goTo(preguntas[i].IdPregunta)">
+          {{'0' + preguntas[i].IdPregunta}}
+        </ion-button> 
+        <ion-button size="small" color="light" *ngIf="preguntas[i].IdPregunta > 9 && preguntas[i].Contestada == 0" (click)="goTo(preguntas[i].IdPregunta)">
+          {{preguntas[i].IdPregunta}}
+        </ion-button> 
+        <ion-button size="small" *ngIf="preguntas[i].IdPregunta > 9 && preguntas[i].Contestada > 0" [ngClass]="preguntas[i].Acertada == 1 ? 'acierto' : preguntas[i].Fallada == 1 ? 'fallo' : '' " (click)="goTo(preguntas[i].IdPregunta)">
+          {{preguntas[i].IdPregunta}}
+        </ion-button> 
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

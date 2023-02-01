@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons slot="start">
+      <!-- <ion-button (click)="ayuda()">
+        <ion-icon slot="icon-only" name="help-circle-outline"></ion-icon>
+      </ion-button> -->
+      <ion-back-button text="Volver" *ngIf="clases === true"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <!-- <ion-button (click)="ordenar()">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button> -->
+      <!-- <ion-button (click)="filtro()">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+
+    <ion-title *ngIf="clases === false">Vídeos</ion-title>
+    <ion-title *ngIf="clases === true">Clases</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="false">
+
+  <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350">
+
+    <ion-segment [(ngModel)]="videos" (ionChange)="segmentChanged($event)">
+      <ion-segment-button layout="icon-start" value="videos">
+        <ion-icon *ngIf="clases === false" name="logo-youtube"></ion-icon>
+        <ion-icon *ngIf="clases === true" name="easel-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="no-vistos">
+        <ion-icon name="eye-off-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="vistos">
+        <ion-icon name="eye-outline"></ion-icon>
+      </ion-segment-button>
+      <!-- <ion-segment-button layout="icon-start" value="clases">
+        <ion-label>Clases</ion-label>
+        <ion-icon name="easel-outline"></ion-icon>
+      </ion-segment-button> -->
+    </ion-segment>
+
+    <div id="fullscreenVideos" slot="fixed"></div>
+
+    <div [ngSwitch]="videos">
+      <ion-list>  
+        <!-- Begin Filtro -->
+        <!-- <ion-row>
+          <ion-col> -->
+            <ion-searchbar (ionInput)="getItems($event)" placeholder="Buscar por título o tema"></ion-searchbar>
+          <!-- </ion-col>
+          <ion-col size="2">
+            <ion-button icon-start fill="clear" (click)="ordenar()">
+              <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row> -->
+        <!-- End Filtro -->
+        <ion-item icon-start *cdkVirtualFor="let item of items; let isOdd = odd" [class.odd]="isOdd" button="true" (click)="play(item)"> 
+          <ion-icon *ngIf="clases === false" slot="start" name="logo-youtube" [ngClass]="item.Visto > 0 ? 'video-viewed' : 'video-unviewed' "></ion-icon>
+          <ion-icon *ngIf="clases === true" slot="start" name="easel-outline" [ngClass]="item.Visto > 0 ? 'video-viewed' : 'video-unviewed' "></ion-icon>
+          <ion-label class="ion-text-wrap">
+            <ion-badge class="tema" slot="end" *ngIf="item.IdTema != ''" [ngClass]="item.IdTema != '' ? 'tema-visible' : 'tema-hidden' ">Tema {{item.IdTema}}</ion-badge>
+            <!-- Begin Etiquetas -->
+            <ng-container *ngFor="let etiqueta of item.Etiquetas.split('][')">
+              <ion-badge *ngIf="etiqueta != ''" class="etiqueta" color="light">
+                {{etiqueta}}
+              </ion-badge>
+            </ng-container>
+            <!-- End Etiquetas -->
+            <br>
+            {{item.Nombre}}
+          </ion-label>
+          <ion-icon name="time-outline" slot="end" *ngIf="esReciente(item.FechaPublicacion)"></ion-icon>
+        </ion-item>
+        <section class="ion-padding ion-text-center" *ngIf="items != null && items.length < 1">
+          <img width="200" src="../assets/imgs/empty.png">
+        </section>
+      </ion-list>    
+
+      <!-- <ion-list *ngSwitchCase="'clases'">  
+        <ion-item icon-start *ngFor="let itemClase of itemsClases" button="true" (click)="play(itemClase)"> 
+          <ion-icon slot="start" name="easel-outline" [ngClass]="'video-clase'"></ion-icon>    
+          <ion-label class="ion-text-wrap">
+            {{itemClase.Nombre}}
+          </ion-label>          
+          <ion-badge slot="end" *ngIf="itemClase.IdTema != ''" [ngClass]="itemClase.IdTema != '' ? 'tema-visible' : 'tema-hidden' ">Tema {{itemClase.IdTema}}</ion-badge>
+        </ion-item>
+        <section class="ion-padding ion-text-center" *ngIf="itemsClases != null && itemsClases.length < 1">
+          <img width="200" src="../assets/imgs/empty.png">
+        </section>
+      </ion-list> -->
+    </div>
+
+  </cdk-virtual-scroll-viewport>
+
+</ion-content>

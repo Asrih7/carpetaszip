@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <!-- <ion-buttons slot="start">
+      <ion-button (click)="ayuda()">
+        <ion-icon slot="icon-only" name="help-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+    <ion-buttons slot="primary">
+      <!-- <ion-button (click)="ordenar()">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+
+    <ion-title>Documentos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="false">
+
+  <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350">
+
+    <ion-segment [(ngModel)]="docs" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="docs">        
+        <ion-icon name="document-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="no-vistos">
+        <ion-icon name="eye-off-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="vistos">
+        <ion-icon name="eye-outline"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="docs">
+      <ion-list>
+        <!-- Begin Filtro -->
+        <!-- <ion-row>
+          <ion-col> -->
+            <ion-searchbar (ionInput)="getItems($event)" placeholder="Buscar por título, etiqueta o tema"></ion-searchbar>
+          <!-- </ion-col>
+          <ion-col size="2">
+            <ion-button icon-start fill="clear" (click)="ordenar()">
+              <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row> -->
+        <!-- End Filtro -->
+        <ion-item icon-start *cdkVirtualFor="let item of items; let isOdd = odd" [class.odd]="isOdd" button="true" (click)="view(item)">
+          <ion-icon slot="start" name="document" [ngClass]="item.Visto > 0 ? 'doc-read' : 'doc-unread' "></ion-icon>  
+          <ion-label class="ion-text-wrap">
+            <ion-badge class="tema" *ngIf="item.IdTema != ''" [ngClass]="item.IdTema != '' ? 'visible' : 'hidden' ">Tema {{item.IdTema}}</ion-badge>
+            <!-- Begin Etiquetas -->
+            <ng-container *ngFor="let etiqueta of item.Etiquetas.split('][')">
+              <ion-badge *ngIf="etiqueta != ''" class="etiqueta" color="light">
+                {{etiqueta}}
+              </ion-badge>
+            </ng-container>
+            <!-- End Etiquetas -->
+            <br>
+            {{item.Nombre}}
+          </ion-label>
+          <ion-icon name="time-outline" slot="end" *ngIf="esReciente(item.FechaPublicacion)"></ion-icon>
+        </ion-item>
+        <section class="ion-padding ion-text-center" *ngIf="items != null && items.length < 1">
+          <img width="200" src="../assets/imgs/empty.png">
+        </section>
+      </ion-list>  
+    </div>
+
+  </cdk-virtual-scroll-viewport>
+
+</ion-content>

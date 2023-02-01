@@ -1,0 +1,20 @@
+// ion-content {
+//     --background: url('http://demo.aulavirtualctp.com/images/backgrounds/pattern_grey.png') 0 0/100% 100% no-repeat; 
+// }
+
+.social-cards ion-col {
+    padding: 0;
+}    
+  
+.notificacion{
+    white-space: normal !important; 
+    text-align: justify;
+}
+
+.reciente{
+    color: var(--ion-color-primary);
+}
+
+.normal{
+    color: gray;
+}

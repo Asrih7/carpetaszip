@@ -1,0 +1,46 @@
+header {
+    margin-top: 7em;
+    margin-bottom: 3em;
+  }
+
+section {
+    margin-top: 2em;
+    margin-bottom: 3em;
+  }
+
+.toolbar-background {
+    background-color: transparent;
+    content: none;
+    }
+
+.button-ayuda {
+    background-color: transparent;
+}
+
+.button-social {
+    border-radius:0%;
+}
+
+.button-ios.activated{
+    background-color: transparent;
+}
+
+ion-content {
+    --background: url('../../../assets/imgs/background.png') 0 0/100% 100% no-repeat;
+}
+
+ion-list {
+    --ion-background-color: transparent !important;
+}
+
+ion-input{
+    color:white;    
+    // --placeholder-color: white;
+    // --placeholder-opacity: 5;
+}
+
+.icon-forgot { 
+    font-size: 6em; 
+    color: var(--ion-color-secondary);
+    //margin-bottom: -10px;    
+}
